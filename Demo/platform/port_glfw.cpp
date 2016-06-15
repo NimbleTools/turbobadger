@@ -12,8 +12,12 @@
 #include "Application.h"
 
 #ifdef TB_TARGET_MACOSX
-#include <unistd.h>
 #include <mach-o/dyld.h>
+#endif
+
+#ifndef TB_TARGET_WINDOWS
+#include <sys/types.h>
+#include <unistd.h>
 #endif
 
 using namespace tb;
@@ -496,6 +500,10 @@ bool port_main() {
 			if (backend->m_has_pending_update)
 				window_refresh_callback(backend->mainWindow);
 			glfwWaitMsgLoop(backend->mainWindow);
+#ifndef _MSC_VER
+			// Poor man's timers
+			usleep(1000);
+#endif
 		} while (!backend->m_quit_requested && !glfwWindowShouldClose(backend->mainWindow));
 
 		app->ShutDown();
