@@ -14,6 +14,10 @@ file(GLOB LOCAL_HEADERS "*.h" GLOB_RECURSE)
 
 add_library(TurboBadgerLib ${LOCAL_SRCS} ${LOCAL_HEADERS})
 
+if(TB_FONT_RENDERER_FREETYPE)
+    target_link_libraries(TurboBadgerLib ${FREETYPE_LIBRARY})
+endif()
+
 install(TARGETS TurboBadgerLib
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
