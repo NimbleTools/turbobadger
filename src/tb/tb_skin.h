@@ -205,6 +205,8 @@ public:
 	float opacity;			///< Opacity that should be used for the whole widget (0.f - 1.f).
 	TBColor text_color;		///< Color of the text in the widget.
 	TBColor bg_color;		///< Color of the background in the widget.
+	TBColor border_color;	///< Color of the widget border.
+	int16 border_width;	///< Width of the widget border.
 	int16 bitmap_dpi;		///< The DPI of the bitmap that was loaded.
 	TBValue tag;			///< This value is free to use for anything. It's not used internally.
 
@@ -394,6 +396,7 @@ private:
 	bool ReloadBitmapsInternal();
 	void PaintElement(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementBGColor(const TBRect &dst_rect, TBSkinElement *element);
+	void PaintElementBorder(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementImage(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementTile(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementStretchImage(const TBRect &dst_rect, TBSkinElement *element);

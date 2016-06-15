@@ -404,6 +404,7 @@ void TBSkin::PaintSkinOverlay(const TBRect &dst_rect, TBSkinElement *element, SK
 void TBSkin::PaintElement(const TBRect &dst_rect, TBSkinElement *element)
 {
 	PaintElementBGColor(dst_rect, element);
+	PaintElementBorder(dst_rect, element);
 	if (!element->bitmap)
 		return;
 	if (element->type == SKIN_ELEMENT_TYPE_IMAGE)
@@ -440,6 +441,13 @@ void TBSkin::PaintElementBGColor(const TBRect &dst_rect, TBSkinElement *element)
 	if (element->bg_color == 0)
 		return;
 	g_renderer->DrawRectFill(dst_rect, element->bg_color);
+}
+
+void TBSkin::PaintElementBorder(const TBRect &dst_rect, TBSkinElement *element)
+{
+	if (element->border_width == 0 || element->border_color == 0)
+		return;
+	g_renderer->DrawRect(dst_rect, element->border_color, element->border_width);
 }
 
 void TBSkin::PaintElementImage(const TBRect &dst_rect, TBSkinElement *element)
@@ -560,6 +568,8 @@ TBSkinElement::TBSkinElement()
 	, flip_x(0), flip_y(0), opacity(1.f)
 	, text_color(0, 0, 0, 0)
 	, bg_color(0, 0, 0, 0)
+	, border_color(0, 0, 0, 0)
+	, border_width(0)
 	, bitmap_dpi(0)
 {
 }
@@ -702,6 +712,11 @@ void TBSkinElement::Load(TBNode *n, TBSkin *skin, const char *skin_path)
 
 	if (const char *color = n->GetValueString("background-color", nullptr))
 		bg_color.SetFromString(color, strlen(color));
+
+	if (const char *color = n->GetValueString("border-color", nullptr))
+		border_color.SetFromString(color, strlen(color));
+
+	border_width = n->GetValueInt("border-width", border_width);
 
 	if (const char *type_str = n->GetValueString("type", nullptr))
 		type = StringToType(type_str);

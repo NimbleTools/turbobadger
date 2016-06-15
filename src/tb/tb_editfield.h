@@ -192,6 +192,7 @@ private:
 	virtual void Invalidate(const TBRect &rect);
 	virtual void DrawString(int32 x, int32 y, TBFontFace *font, const TBColor &color, const char *str, int32 len);
 	virtual void DrawRect(const TBRect &rect, const TBColor &color);
+	virtual void DrawRect(const TBRect &rect, const TBColor &color, int width);
 	virtual void DrawRectFill(const TBRect &rect, const TBColor &color);
 	virtual void DrawTextSelectionBg(const TBRect &rect);
 	virtual void DrawContentSelectionFg(const TBRect &rect);

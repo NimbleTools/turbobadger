@@ -31,6 +31,7 @@ public:
 	virtual void Invalidate(const TBRect &rect) = 0;
 	virtual void DrawString(int32 x, int32 y, TBFontFace *font, const TBColor &color, const char *str, int32 len = TB_ALL_TO_TERMINATION) = 0;
 	virtual void DrawRect(const TBRect &rect, const TBColor &color) = 0;
+	virtual void DrawRect(const TBRect &rect, const TBColor &color, int width) = 0;
 	virtual void DrawRectFill(const TBRect &rect, const TBColor &color) = 0;
 	virtual void DrawTextSelectionBg(const TBRect &rect) = 0;
 	virtual void DrawContentSelectionFg(const TBRect &rect) = 0;

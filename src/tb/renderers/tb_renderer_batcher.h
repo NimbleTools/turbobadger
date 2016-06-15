@@ -68,6 +68,7 @@ public:
 	virtual void DrawBitmapColored(const TBRect &dst_rect, const TBRect &src_rect, const TBColor &color, TBBitmap *bitmap);
 	virtual void DrawBitmapTile(const TBRect &dst_rect, TBBitmap *bitmap);
 	virtual void DrawRect(const TBRect &dst_rect, const TBColor &color);
+	virtual void DrawRect(const TBRect &dst_rect, const TBColor &color, int width);
 	virtual void DrawRectFill(const TBRect &dst_rect, const TBColor &color);
 	virtual void FlushBitmap(TBBitmap *bitmap);
 	virtual void FlushBitmapFragment(TBBitmapFragment *bitmap_fragment);

@@ -197,16 +197,21 @@ void TBRendererBatcher::DrawBitmapTile(const TBRect &dst_rect, TBBitmap *bitmap)
 
 void TBRendererBatcher::DrawRect(const TBRect &dst_rect, const TBColor &color)
 {
+	DrawRect(dst_rect, color, 1);
+}
+
+void TBRendererBatcher::DrawRect(const TBRect &dst_rect, const TBColor &color, int width)
+{
 	if (dst_rect.IsEmpty())
 		return;
 	// Top
-	DrawRectFill(TBRect(dst_rect.x, dst_rect.y, dst_rect.w, 1), color);
+	DrawRectFill(TBRect(dst_rect.x, dst_rect.y, dst_rect.w, width), color);
 	// Bottom
-	DrawRectFill(TBRect(dst_rect.x, dst_rect.y + dst_rect.h - 1, dst_rect.w, 1), color);
+	DrawRectFill(TBRect(dst_rect.x, dst_rect.y + dst_rect.h - width, dst_rect.w, width), color);
 	// Left
-	DrawRectFill(TBRect(dst_rect.x, dst_rect.y + 1, 1, dst_rect.h - 2), color);
+	DrawRectFill(TBRect(dst_rect.x, dst_rect.y + width, width, dst_rect.h - width * 2), color);
 	// Right
-	DrawRectFill(TBRect(dst_rect.x + dst_rect.w - 1, dst_rect.y + 1, 1, dst_rect.h - 2), color);
+	DrawRectFill(TBRect(dst_rect.x + dst_rect.w - width, dst_rect.y + width, width, dst_rect.h - width * 2), color);
 }
 
 void TBRendererBatcher::DrawRectFill(const TBRect &dst_rect, const TBColor &color)

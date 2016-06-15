@@ -474,6 +474,11 @@ void TBEditField::DrawRect(const TBRect &rect, const TBColor &color)
 	g_renderer->DrawRect(rect, color);
 }
 
+void TBEditField::DrawRect(const TBRect &rect, const TBColor &color, int width)
+{
+	g_renderer->DrawRect(rect, color, width);
+}
+
 void TBEditField::DrawRectFill(const TBRect &rect, const TBColor &color)
 {
 	g_renderer->DrawRectFill(rect, color);

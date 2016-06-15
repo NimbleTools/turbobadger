@@ -103,6 +103,9 @@ public:
 	/** Draw a 1px thick rectangle outline. */
 	virtual void DrawRect(const TBRect &dst_rect, const TBColor &color) = 0;
 
+	/** Draw a rectangular outline with the given width. */
+	virtual void DrawRect(const TBRect &dst_rect, const TBColor &color, int width) = 0;
+
 	/** Draw a filled rectangle. */
 	virtual void DrawRectFill(const TBRect &dst_rect, const TBColor &color) = 0;
 
