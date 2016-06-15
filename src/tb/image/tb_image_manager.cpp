@@ -143,7 +143,7 @@ TBImage TBImageManager::GetImage(const char *filename)
 			m_frag_manager.FreeFragment(fragment);
 			image_rep = nullptr;
 		}
-		TBDebugOut(image_rep ? "TBImageManager - Loaded new image.\n" : "TBImageManager - Loading image failed.\n");
+		TBDebugPrint(image_rep ? "TBImageManager - Loaded new image '%s'.\n" : "TBImageManager - Loading image failed '%s'.\n", filename);
 	}
 	return TBImage(image_rep);
 }
