@@ -8,7 +8,7 @@ option(TB_GENERATE_CONFIG "Generate the tb_config.h file from provided parameter
 
 # Configure file options
 option(TB_FONT_RENDERER_TBBF "Enable to support TBBF fonts (Turbo Badger Bitmap Fonts)" ON)
-option(TB_FONT_RENDERER_FREETYPE "Enable FreeType TB Font. Requires FreeType" OFF)
+option(TB_FONT_RENDERER_FREETYPE "Enable FreeType TB Font. Requires FreeType" ON)
 option(TB_FONT_RENDERER_STB "Enable to support truetype fonts using stb_truetype.h WARNING VERY UNSAFE" OFF)
 option(TB_IMAGE_LOADER_STB "Enable to support image loading using stb_image.c" OFF)
 option(TB_RENDERER_BATCHER "Enable to get TBRendererBatcher" ON)
@@ -22,6 +22,10 @@ option(TB_IMAGE "Enable support for TBImage, TBImageManager, TBImageWidget." ON)
 #option(TB_SYSTEM "" OFF)
 #option(TB_TARGET "" OFF)
 
+if(NOT MSVC OR TB_BUILD_DEMO)
+    add_subdirectory(thirdparty/glfw)
+    include_directories(thirdparty/glfw/include)
+endif()
 
 if(TB_DEBUG_POSTFIX)
     set(CMAKE_DEBUG_POSTFIX _d)
@@ -33,7 +37,6 @@ endif()
 if(TB_FONT_RENDERER_FREETYPE)
     set(TB_FONT_RENDERER_FREETYPE_CONFIG "#define TB_FONT_RENDERER_FREETYPE")
     find_package(Freetype REQUIRED)
-    include_directories(${FREETYPE_INCLUDE_DIRS})
 endif()
 if(TB_FONT_RENDERER_STB)
     set(TB_FONT_RENDERER_STB_CONFIG "#define TB_FONT_RENDERER_STB")

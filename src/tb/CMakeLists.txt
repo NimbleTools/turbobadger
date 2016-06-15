@@ -16,7 +16,10 @@ add_library(TurboBadgerLib ${LOCAL_SRCS} ${LOCAL_HEADERS})
 
 if(TB_FONT_RENDERER_FREETYPE)
     target_link_libraries(TurboBadgerLib ${FREETYPE_LIBRARY})
+    include_directories(${FREETYPE_INCLUDE_DIRS})
 endif()
+
+target_link_libraries(TurboBadgerLib -lGL)
 
 install(TARGETS TurboBadgerLib
     RUNTIME DESTINATION bin
