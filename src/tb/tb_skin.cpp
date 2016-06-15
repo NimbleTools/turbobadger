@@ -854,7 +854,7 @@ void TBSkinElementStateList::Load(TBNode *n)
 			}
 		}
 
-		// State is reado to add
+		// State is ready to add
 		m_state_elements.AddLast(state);
 		element_node = element_node->GetNext();
 	}
