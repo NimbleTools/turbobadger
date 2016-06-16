@@ -19,7 +19,8 @@ if(TB_FONT_RENDERER_FREETYPE)
     include_directories(${FREETYPE_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(TurboBadgerLib -lGL)
+find_package(OpenGL REQUIRED)
+target_link_libraries(TurboBadgerLib ${OPENGL_LIBRARIES})
 
 install(TARGETS TurboBadgerLib
     RUNTIME DESTINATION bin
