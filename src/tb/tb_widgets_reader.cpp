@@ -14,6 +14,7 @@
 #include "tb_font_renderer.h"
 #include "tb_toggle_container.h"
 #include "image/tb_image_widget.h"
+#include "tb_system.h"
 
 namespace tb {
 
@@ -457,8 +458,10 @@ TBWidgetsReader::~TBWidgetsReader()
 bool TBWidgetsReader::LoadFile(TBWidget *target, const char *filename)
 {
 	TBNode node;
-	if (!node.ReadFile(filename))
+	if (!node.ReadFile(filename)) {
+		TBDebugOut("Couldn't load file.\n");
 		return false;
+	}
 	LoadNodeTree(target, &node);
 	return true;
 }

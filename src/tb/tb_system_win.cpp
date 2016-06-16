@@ -15,7 +15,11 @@
 
 void TBDebugOut(const char *str)
 {
+#if _DEBUG
+	printf("%s", str);
+#else
 	OutputDebugString(str);
+#endif
 }
 
 #endif // TB_RUNTIME_DEBUG_INFO
