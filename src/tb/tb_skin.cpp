@@ -46,6 +46,8 @@ SKIN_ELEMENT_TYPE StringToType(const char *type_str)
 		return SKIN_ELEMENT_TYPE_STRETCH_IMAGE;
 	else if (strcmp(type_str, "Tile") == 0)
 		return SKIN_ELEMENT_TYPE_TILE;
+    else if (strcmp(type_str, "TextureTile") == 0)
+        return SKIN_ELEMENT_TYPE_TEXTURE_TILE;
 	else if (strcmp(type_str, "StretchBorder") == 0)
 		return SKIN_ELEMENT_TYPE_STRETCH_BORDER;
 	TBDebugOut("Skin error: Unknown skin type!\n");
@@ -262,14 +264,17 @@ bool TBSkin::ReloadBitmapsInternal()
 			assert(!element->bitmap);
 
 			// FIX: dedicated_map is not needed for all backends (only deprecated fixed function GL)
-			bool dedicated_map = element->type == SKIN_ELEMENT_TYPE_TILE;
+			bool dedicated_map = element->type == SKIN_ELEMENT_TYPE_TILE || element->type == SKIN_ELEMENT_TYPE_TEXTURE_TILE;
+            
+            bool texture = element->type != SKIN_ELEMENT_TYPE_TEXTURE_TILE;
 
 			// Try to load bitmap fragment in the destination DPI (F.ex "foo.png" becomes "foo@192.png")
 			int bitmap_dpi = m_dim_conv.GetSrcDPI();
 			if (m_dim_conv.NeedConversion())
 			{
+                //Interesting
 				m_dim_conv.GetDstDPIFilename(element->bitmap_file, &filename_dst_DPI);
-				element->bitmap = m_frag_manager.GetFragmentFromFile(filename_dst_DPI.GetData(), dedicated_map);
+				element->bitmap = m_frag_manager.GetFragmentFromFile(filename_dst_DPI.GetData(), dedicated_map, texture);
 				if (element->bitmap)
 					bitmap_dpi = m_dim_conv.GetDstDPI();
 			}
@@ -277,7 +282,7 @@ bool TBSkin::ReloadBitmapsInternal()
 
 			// If we still have no bitmap fragment, load from default file.
 			if (!element->bitmap)
-				element->bitmap = m_frag_manager.GetFragmentFromFile(element->bitmap_file, dedicated_map);
+				element->bitmap = m_frag_manager.GetFragmentFromFile(element->bitmap_file, dedicated_map, texture);
 
 			if (!element->bitmap)
 				success = false;
@@ -409,7 +414,7 @@ void TBSkin::PaintElement(const TBRect &dst_rect, TBSkinElement *element)
 		return;
 	if (element->type == SKIN_ELEMENT_TYPE_IMAGE)
 		PaintElementImage(dst_rect, element);
-	else if (element->type == SKIN_ELEMENT_TYPE_TILE)
+	else if (element->type == SKIN_ELEMENT_TYPE_TILE || element->type == SKIN_ELEMENT_TYPE_TEXTURE_TILE)
 		PaintElementTile(dst_rect, element);
 	else if (element->type == SKIN_ELEMENT_TYPE_STRETCH_IMAGE || element->cut == 0)
 		PaintElementStretchImage(dst_rect, element);

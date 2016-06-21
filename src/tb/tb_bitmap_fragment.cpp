@@ -406,7 +406,7 @@ TBBitmapFragmentManager::~TBBitmapFragmentManager()
 	Clear();
 }
 
-TBBitmapFragment *TBBitmapFragmentManager::GetFragmentFromFile(const char *filename, bool dedicated_map)
+TBBitmapFragment *TBBitmapFragmentManager::GetFragmentFromFile(const char *filename, bool dedicated_map, bool power_of_two)
 {
 	TBID id(filename);
 
@@ -420,14 +420,14 @@ TBBitmapFragment *TBBitmapFragmentManager::GetFragmentFromFile(const char *filen
 	if (!img)
 		return nullptr;
 
-	frag = CreateNewFragment(id, dedicated_map, img->Width(), img->Height(), img->Width(), img->Data());
+	frag = CreateNewFragment(id, dedicated_map, img->Width(), img->Height(), img->Width(), img->Data(), power_of_two);
 	delete img;
 	return frag;
 }
 
 TBBitmapFragment *TBBitmapFragmentManager::CreateNewFragment(const TBID &id, bool dedicated_map,
 															 int data_w, int data_h, int data_stride,
-															 uint32 *data)
+															 uint32 *data, bool power_of_two)
 {
 	assert(!GetFragment(id));
 
@@ -448,12 +448,22 @@ TBBitmapFragment *TBBitmapFragmentManager::CreateNewFragment(const TBID &id, boo
 	bool allow_another_map = (m_num_maps_limit == 0 || m_fragment_maps.GetNumItems() < m_num_maps_limit);
 	if (!frag && allow_another_map && m_fragment_maps.GrowIfNeeded())
 	{
-		int po2w = TBGetNearestPowerOfTwo(MAX(data_w, m_default_map_w));
-		int po2h = TBGetNearestPowerOfTwo(MAX(data_h, m_default_map_h));
+        //Commenting to fix power of 2
+        int po2w = MAX(data_w, m_default_map_w);
+        int po2h = MAX(data_h, m_default_map_h);
+        
+        if(power_of_two){
+            po2w = TBGetNearestPowerOfTwo(MAX(data_w, m_default_map_w));
+            po2h = TBGetNearestPowerOfTwo(MAX(data_h, m_default_map_h));
+        }
 		if (dedicated_map)
 		{
-			po2w = TBGetNearestPowerOfTwo(data_w);
-			po2h = TBGetNearestPowerOfTwo(data_h);
+			po2w = data_w;
+			po2h = data_h;
+            if(power_of_two){
+                po2w = TBGetNearestPowerOfTwo(data_w);
+                po2h = TBGetNearestPowerOfTwo(data_h);
+            }
 		}
 		TBBitmapFragmentMap *fm = new TBBitmapFragmentMap();
 		if (fm && fm->Init(po2w, po2h))

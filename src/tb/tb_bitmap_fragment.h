@@ -186,7 +186,7 @@ public:
 	/** Get the fragment with the given image filename. If it's not already loaded,
 		it will be loaded into a new fragment with the filename as id.
 		returns nullptr on fail. */
-	TBBitmapFragment *GetFragmentFromFile(const char *filename, bool dedicated_map);
+	TBBitmapFragment *GetFragmentFromFile(const char *filename, bool dedicated_map, bool power_of_two = true);
 
 	/** Get the fragment with the given id, or nullptr if it doesn't exist. */
 	TBBitmapFragment *GetFragment(const TBID &id) const;
@@ -200,7 +200,7 @@ public:
 		@param data pointer to the data in BGRA32 format. */
 	TBBitmapFragment *CreateNewFragment(const TBID &id, bool dedicated_map,
 										int data_w, int data_h, int data_stride,
-										uint32 *data);
+										uint32 *data, bool power_of_two = true);
 
 	/** Delete the given fragment and free the space it used in its map,
 		so that other fragments can take its place. */

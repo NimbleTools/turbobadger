@@ -62,8 +62,9 @@ TBBitmapGL::~TBBitmapGL()
 
 bool TBBitmapGL::Init(int width, int height, uint32 *data)
 {
-	assert(width == TBGetNearestPowerOfTwo(width));
-	assert(height == TBGetNearestPowerOfTwo(height));
+    //Commented this out to fix power of 2
+	//assert(width == TBGetNearestPowerOfTwo(width));
+	//assert(height == TBGetNearestPowerOfTwo(height));
 
 	m_w = width;
 	m_h = height;
