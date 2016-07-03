@@ -264,6 +264,22 @@ WIDGET_VISIBILITY TBWidget::GetVisibility() const
 	return static_cast<WIDGET_VISIBILITY>(m_packed.visibility);
 }
 
+bool TBWidget::ToggleVisibility(bool useGone)
+{
+	WIDGET_VISIBILITY old_vis = GetVisibility();
+	if (old_vis == WIDGET_VISIBILITY_VISIBLE)
+	{
+		if (useGone)
+			SetVisibility(WIDGET_VISIBILITY_GONE);
+		else
+			SetVisibility(WIDGET_VISIBILITY_INVISIBLE);
+		return false;
+	}
+
+	SetVisibility(WIDGET_VISIBILITY_VISIBLE);
+	return true;
+}
+
 bool TBWidget::GetVisibilityCombined() const
 {
 	const TBWidget *tmp = this;

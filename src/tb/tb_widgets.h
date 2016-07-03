@@ -452,6 +452,11 @@ public:
 	void SetVisibility(WIDGET_VISIBILITY vis);
 	WIDGET_VISIBILITY GetVisibility() const;
 
+	/** Toggle visibility for this widget and its children.
+		If useGone is set to true, this will use WIDGET_VISIBILITY_GONE instead of WIDGET_VISIBILITY_INVISIBLE.
+		Returns whether the widget is visible after the toggle. */
+	bool ToggleVisibility(bool useGone = true);
+
 	/** Return true if this widget and all its ancestors are visible
 		(has a opacity > 0 and visibility WIDGET_VISIBILITY_VISIBLE) */
 	bool GetVisibilityCombined() const;
