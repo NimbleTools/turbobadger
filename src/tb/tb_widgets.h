@@ -10,9 +10,11 @@
 #include "tb_geometry.h"
 #include "tb_skin.h"
 #include "tb_linklist.h"
+#include "tb_list.h"
 #include "tb_widget_value.h"
 #include "tb_object.h"
 #include "tb_font_desc.h"
+#include "tb_function.h"
 
 namespace tb {
 
@@ -142,6 +144,8 @@ public:
 	bool IsKeyEvent() const { return	type == EVENT_TYPE_KEY_DOWN ||
 										type == EVENT_TYPE_KEY_UP; }
 };
+
+typedef Function<bool(const TBWidgetEvent&)> TBWidgetEventListener;
 
 /** TBWidgetEventFileDrop is a event of type EVENT_TYPE_FILE_DROP.
 	It contains a list of filenames of the files that was dropped. */
@@ -608,10 +612,14 @@ public:
 	void RemoveListener(TBWidgetListener *listener);
 	bool HasListener(TBWidgetListener *listener) const;
 
+	/** Add an individual event listener to this widget. */
+	int AddEventListener(const TBWidgetEventListener &callback);
+	void RemoveEventListener(int index);
+
 	/** Callback for handling events.
 		Return true if the event is handled and should not
 		continue to be handled by any parent widgets. */
-	virtual bool OnEvent(const TBWidgetEvent &ev) { return false; }
+	virtual bool OnEvent(const TBWidgetEvent &ev);
 
 	/** Callback for doing anything that might be needed before paint.
 		F.ex Updating invalid layout, formatting text etc. */
@@ -981,6 +989,7 @@ private:
 	TBLinkListOf<TBWidget> m_children;///< List of child widgets
 	TBWidgetValueConnection m_connection; ///< TBWidget value connection
 	TBLinkListOf<TBWidgetListener> m_listeners;	///< List of listeners
+	TBListOf<TBWidgetEventListener> m_eventListeners; ///< List of individual event listeners
 	float m_opacity;				///< Opacity 0-1. See SetOpacity.
 	WIDGET_STATE m_state;			///< The widget state (excluding any auto states)
 	WIDGET_GRAVITY m_gravity;		///< The layout gravity setting.

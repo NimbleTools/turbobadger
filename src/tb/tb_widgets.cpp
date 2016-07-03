@@ -100,6 +100,10 @@ TBWidget::~TBWidget()
 	StopLongClickTimer();
 
 	assert(!m_listeners.HasLinks()); // There's still listeners added to this widget!
+
+	while (m_eventListeners.GetNumItems() > 0) {
+		m_eventListeners.DeleteAll();
+	}
 }
 
 void TBWidget::SetRect(const TBRect &rect)
@@ -784,6 +788,31 @@ void TBWidget::RemoveListener(TBWidgetListener *listener)
 bool TBWidget::HasListener(TBWidgetListener *listener) const
 {
 	return m_listeners.ContainsLink(listener);
+}
+
+int TBWidget::AddEventListener(const TBWidgetEventListener &callback)
+{
+	if (!m_eventListeners.Add(new TBWidgetEventListener(callback))) {
+		return -1;
+	}
+	return m_eventListeners.GetNumItems();
+}
+
+void TBWidget::RemoveEventListener(int index)
+{
+	m_eventListeners.Delete(index);
+}
+
+bool TBWidget::OnEvent(const TBWidgetEvent &ev)
+{
+	bool ret = false;
+	for (int i = 0; i < m_eventListeners.GetNumItems(); i++) {
+		auto func = *m_eventListeners[i];
+		if (func(ev)) {
+			ret = true;
+		}
+	}
+	return ret;
 }
 
 void TBWidget::OnPaintChildren(const PaintProps &paint_props)
