@@ -5,7 +5,7 @@
 
 #include "tb_system.h"
 
-#ifdef TB_SYSTEM_LINUX
+#ifdef TB_TARGET_LINUX
 
 #include <sys/time.h>
 #include <stdio.h>
@@ -59,4 +59,4 @@ int TBSystem::GetDPI()
 
 } // namespace tb
 
-#endif // TB_SYSTEM_LINUX
+#endif // TB_TARGET_LINUX
