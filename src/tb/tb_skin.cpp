@@ -444,8 +444,11 @@ TBRect TBSkin::GetFlippedRect(const TBRect &src_rect, TBSkinElement *element) co
 
 void TBSkin::PaintRect(const TBRect &dst_rect, const TBColor &color, int thickness)
 {
-	if (dst_rect.IsEmpty())
+	if (dst_rect.w < thickness * 2 || dst_rect.h < thickness * 2)
+	{
+		PaintRectFill(dst_rect, color);
 		return;
+	}
 	// Top
 	PaintRectFill(TBRect(dst_rect.x, dst_rect.y, dst_rect.w, thickness), color);
 	// Bottom
