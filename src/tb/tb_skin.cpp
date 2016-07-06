@@ -479,7 +479,7 @@ void TBSkin::PaintElementBorder(const TBRect &dst_rect, TBSkinElement *element)
 {
 	if (element->border_width == 0 || element->border_color == 0)
 		return;
-	g_renderer->DrawRect(dst_rect, element->border_color, element->border_width);
+	g_tb_skin->PaintRect(dst_rect, element->border_color, element->border_width);
 }
 
 void TBSkin::PaintElementImage(const TBRect &dst_rect, TBSkinElement *element)
