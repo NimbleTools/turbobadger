@@ -471,7 +471,7 @@ void TBEditField::DrawString(int32 x, int32 y, TBFontFace *font, const TBColor &
 
 void TBEditField::DrawRect(const TBRect &rect, const TBColor &color)
 {
-	g_renderer->DrawRect(rect, color);
+	g_tb_skin->PaintRect(rect, color, 1);
 }
 
 void TBEditField::DrawRect(const TBRect &rect, const TBColor &color, int width)
@@ -481,7 +481,7 @@ void TBEditField::DrawRect(const TBRect &rect, const TBColor &color, int width)
 
 void TBEditField::DrawRectFill(const TBRect &rect, const TBColor &color)
 {
-	g_renderer->DrawRectFill(rect, color);
+	g_tb_skin->PaintRectFill(rect, color);
 }
 
 void TBEditField::DrawTextSelectionBg(const TBRect &rect)
@@ -583,7 +583,7 @@ TBTextFragmentContentWidget::TBTextFragmentContentWidget(TBWidget *parent, TBWid
 
 TBTextFragmentContentWidget::~TBTextFragmentContentWidget()
 {
-	m_widget->GetParent()->RemoveChild(m_widget);
+	m_widget->RemoveFromParent();
 	delete m_widget;
 }
 

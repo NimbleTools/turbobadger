@@ -195,34 +195,6 @@ void TBRendererBatcher::DrawBitmapTile(const TBRect &dst_rect, TBBitmap *bitmap)
 					VER_COL_OPACITY(m_opacity), bitmap, nullptr);
 }
 
-void TBRendererBatcher::DrawRect(const TBRect &dst_rect, const TBColor &color)
-{
-	DrawRect(dst_rect, color, 1);
-}
-
-void TBRendererBatcher::DrawRect(const TBRect &dst_rect, const TBColor &color, int width)
-{
-	if (dst_rect.IsEmpty())
-		return;
-	// Top
-	DrawRectFill(TBRect(dst_rect.x, dst_rect.y, dst_rect.w, width), color);
-	// Bottom
-	DrawRectFill(TBRect(dst_rect.x, dst_rect.y + dst_rect.h - width, dst_rect.w, width), color);
-	// Left
-	DrawRectFill(TBRect(dst_rect.x, dst_rect.y + width, width, dst_rect.h - width * 2), color);
-	// Right
-	DrawRectFill(TBRect(dst_rect.x + dst_rect.w - width, dst_rect.y + width, width, dst_rect.h - width * 2), color);
-}
-
-void TBRendererBatcher::DrawRectFill(const TBRect &dst_rect, const TBColor &color)
-{
-	if (dst_rect.IsEmpty())
-		return;
-	uint32 a = (color.a * m_opacity) / 255;
-	AddQuadInternal(dst_rect.Offset(m_translation_x, m_translation_y),
-					TBRect(), VER_COL(color.r, color.g, color.b, a), nullptr, nullptr);
-}
-
 void TBRendererBatcher::AddQuadInternal(const TBRect &dst_rect, const TBRect &src_rect, uint32 color, TBBitmap *bitmap, TBBitmapFragment *fragment)
 {
 	if (batch.bitmap != bitmap)
@@ -231,15 +203,14 @@ void TBRendererBatcher::AddQuadInternal(const TBRect &dst_rect, const TBRect &sr
 		batch.bitmap = bitmap;
 	}
 	batch.fragment = fragment;
-	if (bitmap)
-	{
-		int bitmap_w = bitmap->Width();
-		int bitmap_h = bitmap->Height();
-		m_u = (float)src_rect.x / bitmap_w;
-		m_v = (float)src_rect.y / bitmap_h;
-		m_uu = (float)(src_rect.x + src_rect.w) / bitmap_w;
-		m_vv = (float)(src_rect.y + src_rect.h) / bitmap_h;
-	}
+
+	const int bitmap_w = bitmap->Width();
+	const int bitmap_h = bitmap->Height();
+	m_u = (float) src_rect.x / bitmap_w;
+	m_v = (float) src_rect.y / bitmap_h;
+	m_uu = (float) (src_rect.x + src_rect.w) / bitmap_w;
+	m_vv = (float) (src_rect.y + src_rect.h) / bitmap_h;
+
 	Vertex *ver = batch.Reserve(this, 6);
 	ver[0].x = (float) dst_rect.x;
 	ver[0].y = (float) (dst_rect.y + dst_rect.h);
