@@ -47,6 +47,8 @@ public:
 
 	/** Get Dots Per Inch for the main screen. */
 	static int GetDPI();
+	
+	static void SetWindow(void* window_handle);
 };
 
 /** TBClipboard is a porting interface for the clipboard. */

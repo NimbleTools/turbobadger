@@ -1,17 +1,18 @@
-// ================================================================================
+	// ================================================================================
 // ==      This file is a part of Turbo Badger. (C) 2011-2014, Emil Segerås      ==
 // ==                     See tb_core.h for more information.                    ==
 // ================================================================================
 
 #include "tb_system.h"
 
-#if defined(TB_TARGET_MACOSX)
+#ifdef TB_TARGET_MACOSX
 
 #include <sys/time.h>
 #include <stdio.h>
 
 //Includes native mac functions such as CoreGraphics used in this case
 #include <ApplicationServices/ApplicationServices.h>
+#include <AppKit/AppKit.h>
 
 #ifdef TB_RUNTIME_DEBUG_INFO
 
@@ -25,6 +26,8 @@ void TBDebugOut(const char *str)
 namespace tb {
 	
 	// == TBSystem ========================================
+	
+	static NSWindow* _windowHandle; // not part of TBSystem, but static to this compiled object
 	
 	double TBSystem::GetTimeMS()
 	{
@@ -56,13 +59,13 @@ namespace tb {
 	
 	int TBSystem::GetDPI()
 	{
-		// FIX: Implement!
-		CGRect mainMonitor = CGDisplayBounds(CGMainDisplayID());
-		CGFloat monitorHeight = CGRectGetHeight(mainMonitor);
-		CGFloat monitorWidth = CGRectGetWidth(mainMonitor);
+		CGFloat f = [_windowHandle backingScaleFactor];
 		
-		return 96;
-		//return ((monitorHeight / monitorWidth) * 25.4f);
+		return 96 * f;
+	}
+	
+	void TBSystem::SetWindow(void *window_handle){
+		_windowHandle = (NSWindow*)window_handle;
 	}
 	
 } // namespace tb
