@@ -314,7 +314,7 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 		if (GetScrollContainer()->OnEvent(ev))
 			return true;
 	}
-	return false;
+	return TBWidget::OnEvent(ev);
 }
 
 bool TBSelectList::ChangeValue(SPECIAL_KEY key)
