@@ -270,7 +270,7 @@ void TBSelectList::OnProcessAfterChildren()
 
 bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 {
-	if (ev.type == EVENT_TYPE_CLICK && ev.target->GetParent() == m_layout.GetContentRoot())
+	if (ev.type == EVENT_TYPE_POINTER_DOWN && ev.target->GetParent() == m_layout.GetContentRoot())
 	{
 		// SetValue (EVENT_TYPE_CHANGED) might cause something to delete this (f.ex closing
 		// the dropdown menu. We want to sent another event, so ensure we're still around.
