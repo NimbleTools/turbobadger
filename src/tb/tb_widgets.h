@@ -487,6 +487,11 @@ public:
 		animate. They will be instantly removed and deleted. */
 	void DeleteAllChildren();
 
+	/** Remove all children in this widget.
+		This is essentially the same as DeleteAllChildren, except it doesn't delete
+		the children, but only disown the children. */
+	void RemoveAllChildren();
+
 	/** Sets the z-order of this widget related to its siblings. When a widget is added with AddChild, it will be
 		placed at the top in the parent (Above previously added widget). SetZ can be used to change the order. */
 	void SetZ(WIDGET_Z z);

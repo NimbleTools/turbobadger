@@ -376,6 +376,12 @@ void TBWidget::DeleteAllChildren()
 	}
 }
 
+void TBWidget::RemoveAllChildren()
+{
+	while (TBWidget *child = GetFirstChild())
+		RemoveChild(child);
+}
+
 void TBWidget::SetZ(WIDGET_Z z)
 {
 	if (!m_parent)
