@@ -489,7 +489,7 @@ public:
 
 	/** Remove all children in this widget.
 		This is essentially the same as DeleteAllChildren, except it doesn't delete
-		the children, but only disown the children. */
+		the children, but only disown them. */
 	void RemoveAllChildren();
 
 	/** Sets the z-order of this widget related to its siblings. When a widget is added with AddChild, it will be
