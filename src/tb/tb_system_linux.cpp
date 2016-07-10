@@ -10,11 +10,16 @@
 #include <sys/time.h>
 #include <stdio.h>
 
+void(*TBDebugCallback)(const char* str) = nullptr;
+
 #ifdef TB_RUNTIME_DEBUG_INFO
 
 void TBDebugOut(const char *str)
 {
-	printf("%s", str);
+	if (TBDebugCallback == nullptr)
+		printf("%s", str);
+	else
+		TBDebugCallback(str);
 }
 
 #endif // TB_RUNTIME_DEBUG_INFO

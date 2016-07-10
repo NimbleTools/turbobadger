@@ -11,13 +11,18 @@
 #include <mmsystem.h>
 #include <stdio.h>
 
+void(*TBDebugCallback)(const char* str) = nullptr;
+
 #ifdef TB_RUNTIME_DEBUG_INFO
 
 void TBDebugOut(const char *str)
 {
-#if _DEBUG
-	printf("%s", str);
-#else
+	if (TBDebugCallback == nullptr)
+		printf("%s", str);
+	else
+		TBDebugCallback(str);
+
+#ifdef NDEBUG
 	OutputDebugString(str);
 #endif
 }

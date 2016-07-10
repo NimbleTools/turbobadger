@@ -17,6 +17,8 @@
 #include <android/asset_manager_jni.h>
 #include <android/configuration.h>
 
+void(*TBDebugCallback)(const char* str) = nullptr;
+
 #ifdef TB_RUNTIME_DEBUG_INFO
 
 #define  LOG_TAG    "TB"
@@ -25,7 +27,10 @@
 
 void TBDebugOut(const char *str)
 {
-	LOGI("%s", str);
+	if (TBDebugCallback == nullptr)
+		LOGI("%s", str);
+	else
+		TBDebugCallback(str);
 }
 
 #endif // TB_RUNTIME_DEBUG_INFO
