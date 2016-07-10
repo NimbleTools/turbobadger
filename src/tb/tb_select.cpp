@@ -26,6 +26,7 @@ TBSelectList::TBSelectList()
 	: m_value(-1)
 	, m_list_is_invalid(false)
 	, m_scroll_to_current(false)
+	, m_can_select_nothing(false)
 	, m_header_lng_string_id(TBIDC("TBList.header"))
 {
 	SetSource(&m_default_source);
@@ -302,6 +303,11 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 		}
 		return true;
 	}
+	else if (ev.type == EVENT_TYPE_POINTER_DOWN && m_can_select_nothing)
+	{
+		SetValue(-1);
+		return true;
+	}
 	else if (ev.type == EVENT_TYPE_KEY_DOWN)
 	{
 		if (ChangeValue(ev.special_key))
@@ -353,6 +359,11 @@ bool TBSelectList::ChangeValue(SPECIAL_KEY key)
 		return true;
 	}
 	return false;
+}
+
+void TBSelectList::SetCanSelectNothing(bool can)
+{
+	m_can_select_nothing = can;
 }
 
 // == TBSelectDropdown ==========================================

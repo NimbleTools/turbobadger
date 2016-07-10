@@ -352,6 +352,9 @@ void TBSelectList::OnInflate(const INFLATE_INFO &info)
 {
 	// Read items (if there is any) into the default source
 	ReadItems(info.node, GetDefaultSource());
+
+	SetCanSelectNothing(info.node->GetValueInt("can-select-nothing", 0) ? true : false);
+
 	TBWidget::OnInflate(info);
 }
 

@@ -80,6 +80,9 @@ public:
 	/** Return the scrollcontainer used in this list. */
 	TBScrollContainer *GetScrollContainer() { return &m_container; }
 
+	/** Set whether clicking outside of any item will deselect items. */
+	void SetCanSelectNothing(bool can);
+
 	virtual void OnInflate(const INFLATE_INFO &info);
 	virtual void OnSkinChanged();
 	virtual void OnProcess();
@@ -101,6 +104,7 @@ protected:
 	bool m_list_is_invalid;
 	bool m_scroll_to_current;
 	TBID m_header_lng_string_id;
+	bool m_can_select_nothing;
 private:
 	TBWidget *CreateAndAddItemAfter(int index, TBWidget *reference);
 };
