@@ -450,8 +450,11 @@ TBRect TBSkin::GetFlippedRect(const TBRect &src_rect, TBSkinElement *element) co
 
 void TBSkin::PaintRect(const TBRect &dst_rect, const TBColor &color, int thickness)
 {
-	if (dst_rect.IsEmpty())
+	if (dst_rect.w < thickness * 2 || dst_rect.h < thickness * 2)
+	{
+		PaintRectFill(dst_rect, color);
 		return;
+	}
 	// Top
 	PaintRectFill(TBRect(dst_rect.x, dst_rect.y, dst_rect.w, thickness), color);
 	// Bottom
@@ -612,6 +615,8 @@ TBSkinElement::~TBSkinElement()
 
 int TBSkinElement::GetIntrinsicMinWidth() const
 {
+	if (bitmap && type == SKIN_ELEMENT_TYPE_IMAGE)
+		return bitmap->Width() - expand * 2;
 	// Sizes below the skin cut size would start to shrink the skin below pretty,
 	// so assume that's the default minimum size if it's not specified (minus expansion)
 	return cut * 2 - expand * 2;
@@ -619,6 +624,8 @@ int TBSkinElement::GetIntrinsicMinWidth() const
 
 int TBSkinElement::GetIntrinsicMinHeight() const
 {
+	if (bitmap && type == SKIN_ELEMENT_TYPE_IMAGE)
+		return bitmap->Height() - expand * 2;
 	// Sizes below the skin cut size would start to shrink the skin below pretty,
 	// so assume that's the default minimum size if it's not specified (minus expansion)
 	return cut * 2 - expand * 2;

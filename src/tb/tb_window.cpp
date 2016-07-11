@@ -256,21 +256,19 @@ void TBWindow::OnResized(int old_w, int old_h)
 	const int title_height = GetTitleHeight();
 	m_mover.SetRect(TBRect(0, 0, GetRect().w, title_height));
 
-	const PreferredSize ps = m_resizer.GetPreferredSize();
+	PreferredSize ps = m_resizer.GetPreferredSize();
 	m_resizer.SetRect(TBRect(GetRect().w - ps.pref_w, GetRect().h - ps.pref_h, ps.pref_w, ps.pref_h));
 
 	const TBRect mover_rect = m_mover.GetRect();
-	const int button_size = m_close_button.GetPreferredSize().pref_w;
-	m_close_button.SetRect(TBRect(mover_rect.w - button_size,
-									(mover_rect.h - button_size) / 2,
-									button_size, button_size));
+	const TBRect mover_padding_rect = m_mover.GetPaddingRect();
+	const int mover_padding_right = mover_rect.x + mover_rect.w - (mover_padding_rect.x + mover_padding_rect.w);
+	const int button_w = m_close_button.GetPreferredSize().pref_w;
+	const int button_h = Max(m_close_button.GetPreferredSize().pref_h, mover_padding_rect.h);
+	m_close_button.SetRect(TBRect(mover_padding_rect.x + mover_padding_rect.w - button_w, mover_padding_rect.y, button_w, button_h));
 
-	TBRect title_rect = m_mover.GetPaddingRect();
-	if (m_settings & WINDOW_SETTINGS_CLOSE_BUTTON) {
-		// Use close button size instead of right padding
-		title_rect.w += mover_rect.x + mover_rect.w - (title_rect.x + title_rect.w);
-		title_rect.w -= button_size;
-	}
+	TBRect title_rect = mover_padding_rect;
+	if (m_settings & WINDOW_SETTINGS_CLOSE_BUTTON)
+		title_rect.w -= mover_padding_right + button_w;
 	m_textfield.SetRect(title_rect);
 }
 
