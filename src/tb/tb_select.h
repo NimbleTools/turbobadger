@@ -103,8 +103,8 @@ protected:
 	TBStr m_filter;
 	bool m_list_is_invalid;
 	bool m_scroll_to_current;
-	TBID m_header_lng_string_id;
 	bool m_can_select_nothing;
+	TBID m_header_lng_string_id;
 private:
 	TBWidget *CreateAndAddItemAfter(int index, TBWidget *reference);
 };
