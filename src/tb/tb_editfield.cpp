@@ -498,8 +498,10 @@ void TBEditField::DrawContentSelectionFg(const TBRect &rect)
 
 void TBEditField::DrawCaret(const TBRect &rect)
 {
-	if (GetIsFocused() && !m_style_edit.packed.read_only)
-		DrawTextSelectionBg(rect);
+	if (!GetIsFocused() || m_style_edit.packed.read_only)
+		return;
+	TBWidgetSkinConditionContext context(this);
+	g_tb_skin->PaintSkin(rect, TBIDC("TBEditField.caret"), static_cast<SKIN_STATE>(GetAutoState()), context);
 }
 
 void TBEditField::Scroll(int32 dx, int32 dy)

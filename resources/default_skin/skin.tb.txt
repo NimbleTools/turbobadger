@@ -252,6 +252,8 @@ elements
 	TBEditField.selection
 		cut 2
 		bitmap selection.png
+	TBEditField.caret
+		background-color #fff
 	TBEditField
 		bitmap editfield.png
 		cut 12
