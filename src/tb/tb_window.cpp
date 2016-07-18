@@ -217,6 +217,9 @@ PreferredSize TBWindow::OnCalculatePreferredSize(const SizeConstraints &constrai
 
 bool TBWindow::OnEvent(const TBWidgetEvent &ev)
 {
+	if (TBWidget::OnEvent(ev))
+		return true;
+
 	if (ev.target == &m_close_button)
 	{
 		if (ev.type == EVENT_TYPE_CLICK)
