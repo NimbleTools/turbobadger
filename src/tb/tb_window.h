@@ -87,6 +87,9 @@ public:
 	virtual bool GetText(TBStr &text) { return m_textfield.GetText(text); }
 	using TBWidget::GetText; ///< Make all versions in base class available.
 
+	/** Get the text field for the window title. */
+	TBTextField &GetTextField() { return m_textfield; }
+
 	/** Get the height of the title bar (or 0 if the WINDOW_SETTINGS say this window
 		shouldn't have any title bar) */
 	int GetTitleHeight();
