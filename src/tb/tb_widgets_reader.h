@@ -150,13 +150,13 @@ public:
 	/** Set the id from the given node. */
 	static void SetIDFromNode(TBID &id, TBNode *node);
 
-	bool LoadFile(TBWidget *target, const char *filename);
-	bool LoadData(TBWidget *target, const char *data);
-	bool LoadData(TBWidget *target, const char *data, int data_len);
-	void LoadNodeTree(TBWidget *target, TBNode *node);
+	TBWidget* LoadFile(TBWidget *target, const char *filename);
+	TBWidget* LoadData(TBWidget *target, const char *data);
+	TBWidget* LoadData(TBWidget *target, const char *data, int data_len);
+	TBWidget* LoadNodeTree(TBWidget *target, TBNode *node);
 private:
 	bool Init();
-	bool CreateWidget(TBWidget *target, TBNode *node);
+	TBWidget* CreateWidget(TBWidget *target, TBNode *node);
 	TBLinkListOf<TBWidgetFactory> factories;
 };
 

@@ -460,38 +460,42 @@ TBWidgetsReader::~TBWidgetsReader()
 {
 }
 
-bool TBWidgetsReader::LoadFile(TBWidget *target, const char *filename)
+TBWidget* TBWidgetsReader::LoadFile(TBWidget *target, const char *filename)
 {
 	TBNode node;
 	if (!node.ReadFile(filename)) {
 		TBDebugOut("Couldn't load file.\n");
-		return false;
+		return nullptr;
 	}
-	LoadNodeTree(target, &node);
-	return true;
+	return LoadNodeTree(target, &node);
 }
 
-bool TBWidgetsReader::LoadData(TBWidget *target, const char *data)
+TBWidget* TBWidgetsReader::LoadData(TBWidget *target, const char *data)
 {
 	TBNode node;
 	node.ReadData(data);
-	LoadNodeTree(target, &node);
-	return true;
+	return LoadNodeTree(target, &node);
 }
 
-bool TBWidgetsReader::LoadData(TBWidget *target, const char *data, int data_len)
+TBWidget* TBWidgetsReader::LoadData(TBWidget *target, const char *data, int data_len)
 {
 	TBNode node;
 	node.ReadData(data, data_len);
-	LoadNodeTree(target, &node);
-	return true;
+	return LoadNodeTree(target, &node);
 }
 
-void TBWidgetsReader::LoadNodeTree(TBWidget *target, TBNode *node)
+TBWidget* TBWidgetsReader::LoadNodeTree(TBWidget *target, TBNode *node)
 {
 	// Iterate through all nodes and create widgets
+	TBWidget* first_widget = nullptr;
 	for (TBNode *child = node->GetFirstChild(); child; child = child->GetNext())
-		CreateWidget(target, child);
+	{
+		TBWidget* w = CreateWidget(target, child);
+		if (first_widget == nullptr) {
+			first_widget = w;
+		}
+	}
+	return first_widget;
 }
 
 void TBWidgetsReader::SetIDFromNode(TBID &id, TBNode *node)
@@ -504,7 +508,7 @@ void TBWidgetsReader::SetIDFromNode(TBID &id, TBNode *node)
 		id.Set(node->GetValue().GetInt());
 }
 
-bool TBWidgetsReader::CreateWidget(TBWidget *target, TBNode *node)
+TBWidget* TBWidgetsReader::CreateWidget(TBWidget *target, TBNode *node)
 {
 	// Find a widget creator from the node name
 	TBWidgetFactory *wc = nullptr;
@@ -512,13 +516,13 @@ bool TBWidgetsReader::CreateWidget(TBWidget *target, TBNode *node)
 		if (strcmp(node->GetName(), wc->name) == 0)
 			break;
 	if (!wc)
-		return false;
+		return nullptr;
 
 	// Create the widget
 	INFLATE_INFO info(this, target->GetContentRoot(), node, wc->sync_type);
 	TBWidget *new_widget = wc->Create(&info);
 	if (!new_widget)
-		return false;
+		return nullptr;
 
 	// Read properties and add i to the hierarchy.
 	new_widget->OnInflate(info);
@@ -533,7 +537,7 @@ bool TBWidgetsReader::CreateWidget(TBWidget *target, TBNode *node)
 	if (node->GetValueInt("autofocus", 0))
 		new_widget->SetFocus(WIDGET_FOCUS_REASON_UNKNOWN);
 
-	return true;
+	return new_widget;
 }
 
 } // namespace tb
