@@ -582,6 +582,11 @@ public:
 		is true, the search will recurse into the childrens children. */
 	TBWidget *GetWidgetAt(int x, int y, bool include_children) const;
 
+	/** Get the amount of children in this widget.
+		Note: Avoid calling this in loops since it does iteration. Consider iterating
+		the widgets directly instead! */
+	int GetChildrenCount() const;
+
 	/** Get the child at the given index, or nullptr if there was no child at that index.
 		Note: Avoid calling this in loops since it does iteration. Consider iterating
 		the widgets directly instead! */

@@ -723,6 +723,14 @@ TBWidget *TBWidget::GetWidgetAt(int x, int y, bool include_children) const
 	return last_match;
 }
 
+int TBWidget::GetChildrenCount() const
+{
+	int ret = 0;
+	for (TBWidget *child = GetFirstChild(); child; child = child->GetNext())
+		ret++;
+	return ret;
+}
+
 TBWidget *TBWidget::GetChildFromIndex(int index) const
 {
 	int i = 0;
