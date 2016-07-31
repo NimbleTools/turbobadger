@@ -300,15 +300,15 @@ bool TBSelection::IsFragmentSelected(TBTextFragment *elm) const
 	{
 		if (elm->block != start.block)
 			return false;
-		if (start.ofs < elm->ofs + elm->len && stop.ofs >= elm->ofs)
+		if (start.ofs < (int32)(elm->ofs + elm->len) && stop.ofs >= (int32)elm->ofs)
 			return true;
 		return false;
 	}
 	if (elm->block->ypos > start.block->ypos && elm->block->ypos < stop.block->ypos)
 		return true;
-	if (elm->block->ypos == start.block->ypos && elm->ofs + elm->len > start.ofs)
+	if (elm->block->ypos == start.block->ypos && (int32)(elm->ofs + elm->len) > start.ofs)
 		return true;
-	if (elm->block->ypos == stop.block->ypos && elm->ofs < stop.ofs)
+	if (elm->block->ypos == stop.block->ypos && (int32)elm->ofs < stop.ofs)
 		return true;
 	return false;
 }
@@ -585,7 +585,7 @@ bool TBCaret::Place(TBBlock *block, int ofs, bool allow_snap, bool snap_forward)
 		if (allow_snap)
 		{
 			TBTextFragment *fragment = block->FindFragment(ofs);
-			if (ofs > fragment->ofs && fragment->IsBreak())
+			if (ofs > (int32)fragment->ofs && fragment->IsBreak())
 			{
 				if (snap_forward && block->GetNext())
 				{
@@ -610,7 +610,7 @@ bool TBCaret::Place(TBBlock *block, int ofs, bool allow_snap, bool snap_forward)
 void TBCaret::AvoidLineBreak()
 {
 	TBTextFragment *fragment = GetFragment();
-	if (pos.ofs > fragment->ofs && fragment->IsBreak())
+	if (pos.ofs > (int32)fragment->ofs && fragment->IsBreak())
 		pos.ofs = fragment->ofs;
 	UpdatePos();
 }
@@ -1101,9 +1101,9 @@ TBTextFragment *TBBlock::FindFragment(int32 ofs, bool prefer_first) const
 	TBTextFragment *fragment = fragments.GetFirst();
 	while (fragment)
 	{
-		if (prefer_first && ofs <= fragment->ofs + fragment->len)
+		if (prefer_first && ofs <= (int32)(fragment->ofs + fragment->len))
 			return fragment;
-		if (!prefer_first && ofs < fragment->ofs + fragment->len)
+		if (!prefer_first && ofs < (int32)(fragment->ofs + fragment->len))
 			return fragment;
 		fragment = fragment->GetNext();
 	}
@@ -1115,7 +1115,7 @@ TBTextFragment *TBBlock::FindFragment(int32 x, int32 y) const
 	TBTextFragment *fragment = fragments.GetFirst();
 	while (fragment)
 	{
-		if (y < fragment->line_ypos + fragment->line_height)
+		if (y < (int32)(fragment->line_ypos + fragment->line_height))
 		{
 			if (x < fragment->xpos + fragment->GetWidth(styledit->font))
 				return fragment;
@@ -1286,7 +1286,7 @@ int32 TBTextFragment::GetBaseline(TBFontFace *font)
 
 int32 TBTextFragment::GetCharX(TBFontFace *font, int32 ofs)
 {
-	assert(ofs >= 0 && ofs <= len);
+	assert(ofs >= 0 && ofs <= (int32)len);
 
 	if (IsEmbedded() || IsTab())
 		return ofs == 0 ? 0 :  GetWidth(font);
@@ -1305,7 +1305,7 @@ int32 TBTextFragment::GetCharOfs(TBFontFace *font, int32 x)
 
 	const char *str = block->str.CStr() + ofs;
 	int i = 0;
-	while (i < len)
+	while (i < (int32)len)
 	{
 		int pos = i;
 		utf8::move_inc(str, &i, len);
