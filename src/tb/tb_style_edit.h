@@ -275,7 +275,7 @@ public:
 				, content(content) {}
 	~TBTextFragment();
 
-	void Init(TBBlock *block, uint16 ofs, uint16 len);
+	void Init(TBBlock *block, uint32 ofs, uint32 len);
 
 	void UpdateContentPos();
 
@@ -305,10 +305,10 @@ public:
 	int32 GetHeight(TBFontFace *font);
 	int32 GetBaseline(TBFontFace *font);
 public:
-	int16 xpos, ypos;
-	uint16 ofs, len;
-	uint16 line_ypos;
-	uint16 line_height;
+	int32 xpos, ypos;
+	uint32 ofs, len;
+	uint32 line_ypos;
+	uint32 line_height;
 	TBBlock *block;
 	TBTextFragmentContent *content;
 };

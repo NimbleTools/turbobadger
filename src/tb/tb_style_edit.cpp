@@ -1166,7 +1166,7 @@ TBTextFragment::~TBTextFragment()
 	delete content;
 }
 
-void TBTextFragment::Init(TBBlock *block, uint16 ofs, uint16 len)
+void TBTextFragment::Init(TBBlock *block, uint32 ofs, uint32 len)
 {
 	this->block = block; this->ofs = ofs; this->len = len;
 }
