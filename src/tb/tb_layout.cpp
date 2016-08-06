@@ -416,7 +416,7 @@ bool TBLayout::OnEvent(const TBWidgetEvent &ev)
 		SetOverflowScroll(m_overflow_scroll + ev.delta_y * TBSystem::GetPixelsPerLine());
 		return m_overflow_scroll != old_scroll;
 	}
-	return false;
+	return TBWidget::OnEvent(ev);
 }
 
 void TBLayout::OnPaintChildren(const PaintProps &paint_props)

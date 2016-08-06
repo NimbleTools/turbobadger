@@ -80,7 +80,7 @@ bool TBSimpleLayoutItemWidget::OnEvent(const TBWidgetEvent &ev)
 		OpenSubMenu();
 		return true;
 	}
-	return false;
+	return TBLayout::OnEvent(ev);
 }
 
 void TBSimpleLayoutItemWidget::OnWidgetDelete(TBWidget *widget)

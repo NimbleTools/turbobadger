@@ -300,10 +300,11 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 			}
 
 			// Invoke the click event on the target list
-			TBWidgetEvent ev(EVENT_TYPE_CLICK);
+			TBWidgetEvent newEvent(EVENT_TYPE_CLICK);
+			newEvent.count = ev.count;
 			if (TBWidget *widget = GetItemWidget(m_value))
-				ev.ref_id = widget->GetID();
-			target_list->InvokeEvent(ev);
+				newEvent.ref_id = widget->GetID();
+			target_list->InvokeEvent(newEvent);
 		}
 		return true;
 	}
