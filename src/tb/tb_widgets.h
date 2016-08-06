@@ -136,7 +136,7 @@ public:
 	/** The count value may be 1 to infinity. If you f.ex want to see which count it is for something
 		handling click and double click, call GetCountCycle(2). If you also handle triple click, call
 		GetCountCycle(3) and so on. That way you'll get a count that always cycle in the range you need. */
-	int GetCountCycle(int max) { return ((count - 1) % max) + 1; }
+	int GetCountCycle(int max) const { return ((count - 1) % max) + 1; }
 
 	bool IsPointerEvent() const { return	type == EVENT_TYPE_POINTER_DOWN ||
 											type == EVENT_TYPE_POINTER_UP ||
