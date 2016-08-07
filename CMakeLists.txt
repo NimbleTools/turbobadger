@@ -64,7 +64,6 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" OR ${CMAKE_CXX_COMPILER_ID} MATCHES "C
 endif()
 
 if(APPLE)
- add_definitions(-DMACOSX)
  add_definitions(-Dnullptr=0)
 endif(APPLE)
 

@@ -103,7 +103,7 @@
 #define TB_TARGET_LINUX
 #define TB_SYSTEM_LINUX
 #define TB_CLIPBOARD_GLFW
-#elif defined(MACOSX) || defined(__APPLE__)
+#elif defined(__APPLE__)
 #define TB_FILE_POSIX
 #define TB_TARGET_MACOSX
 #define TB_SYSTEM_LINUX
