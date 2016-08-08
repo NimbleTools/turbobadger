@@ -99,8 +99,6 @@ public:
 private:
 	// == TBWidgetListener ==================
 	virtual void OnWidgetDelete(TBWidget *widget);
-	virtual bool OnWidgetDying(TBWidget *widget);
-	virtual void OnWidgetAdded(TBWidget *parent, TBWidget *child);
 	virtual void OnWidgetRemove(TBWidget *parent, TBWidget *child);
 };
 
