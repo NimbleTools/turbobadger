@@ -31,11 +31,11 @@ public:
 	virtual TBFontMetrics GetMetrics();
 	virtual bool RenderGlyph(TBFontGlyphData *dst_bitmap, UCS4 cp);
 	virtual void GetGlyphMetrics(TBGlyphMetrics *metrics, UCS4 cp);
+	virtual int GetAdvance(UCS4 cp1, UCS4 cp2);
 private:
 	stbtt_fontinfo font;
 	TBTempBuffer ttf_buffer;
 	unsigned char *render_data;
-	int font_size;
 	float scale;
 };
 
@@ -72,13 +72,25 @@ bool STBFontRenderer::RenderGlyph(TBFontGlyphData *data, UCS4 cp)
 
 void STBFontRenderer::GetGlyphMetrics(TBGlyphMetrics *metrics, UCS4 cp)
 {
-	int advanceWidth, leftSideBearing;
-	stbtt_GetCodepointHMetrics(&font, cp, &advanceWidth, &leftSideBearing);
-	metrics->advance = (int) (advanceWidth * scale + 0.5f);
-	int ix0, iy0, ix1, iy1;
-	stbtt_GetCodepointBitmapBox(&font, cp, 0, scale, &ix0, &iy0, &ix1, &iy1);
+	int advance, leftSideBearing;
+	const int gi = stbtt_FindGlyphIndex(&font, cp);
+	stbtt_GetGlyphHMetrics(&font, gi, &advance, &leftSideBearing);
+	metrics->advance = (int) roundf(advance * scale);
+
+	int ix0, iy0;
+	stbtt_GetGlyphBitmapBoxSubpixel(&font, gi, scale, scale, 0.f, 0.f, &ix0, &iy0, 0, 0);
 	metrics->x = ix0;
 	metrics->y = iy0;
+}
+
+int STBFontRenderer::GetAdvance(UCS4 cp1, UCS4 cp2)
+{
+	int advance, leftSideBearing;
+	const int gi1 = stbtt_FindGlyphIndex(&font, cp1);
+	stbtt_GetGlyphHMetrics(&font, gi1, &advance, &leftSideBearing);
+	if (font.kern)
+		advance += stbtt_GetGlyphKernAdvance(&font, gi1, stbtt_FindGlyphIndex(&font, cp2));
+	return (int) roundf(advance * scale);
 }
 
 bool STBFontRenderer::Load(const char *filename, int size)
@@ -89,8 +101,7 @@ bool STBFontRenderer::Load(const char *filename, int size)
 	const unsigned char *ttf_ptr = (const unsigned char *) ttf_buffer.GetData();
 	stbtt_InitFont(&font, ttf_ptr, stbtt_GetFontOffsetForIndex(ttf_ptr, 0));
 
-	font_size = (int) (size * 1.3f); // FIX: Constant taken out of thin air because fonts get too small.
-	scale = stbtt_ScaleForPixelHeight(&font, (float)font_size);
+	scale = stbtt_ScaleForPixelHeight(&font, (float) size);
 	return true;
 }
 

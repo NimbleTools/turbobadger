@@ -252,6 +252,12 @@
     <ClCompile Include="..\..\src\tb\image\tb_image_manager.cpp">
       <Filter>Source Files\image</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\tb\tb_shape_rasterizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tb\tb_blur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\tb\tb_language.h">
@@ -427,6 +433,12 @@
     </ClInclude>
     <ClInclude Include="..\..\src\tb\image\tb_image_widget.h">
       <Filter>Source Files\image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\tb\tb_shape_rasterizer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\tb\tb_blur.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

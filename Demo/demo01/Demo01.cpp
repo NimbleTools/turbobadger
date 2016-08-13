@@ -842,9 +842,6 @@ void DemoApplication::OnBackendAttached(AppBackend *backend, int width, int heig
 	// Load language file
 	g_tb_lng->Load("resources/language/lng_en.tb.txt");
 
-	// Load the default skin, and override skin that contains the graphics specific to the demo.
-	g_tb_skin->Load("resources/default_skin/skin.tb.txt", "Demo/demo01/skin/skin.tb.txt");
-
 	// Register font renderers.
 #ifdef TB_FONT_RENDERER_TBBF
 	void register_tbbf_font_renderer();
@@ -859,9 +856,19 @@ void DemoApplication::OnBackendAttached(AppBackend *backend, int width, int heig
 	register_freetype_font_renderer();
 #endif
 
+	// Load the default skin, and override skin that contains the graphics specific to the demo.
+#if 0 // defined(TB_FONT_RENDERER_STB) || defined(TB_FONT_RENDERER_FREETYPE)
+	// New experimental skin using shapes & icon font, to scale perfectly for any DPI
+	// Requires FontAwesome to be added before loading skin.
+	g_font_manager->AddFontInfo("resources/fonty_skin/fontawesome.ttf", "FontAwesome");
+	g_tb_skin->Load("resources/fonty_skin/skin.tb.txt", "Demo/demo01/skin/skin.tb.txt");
+#else
+	g_tb_skin->Load("resources/default_skin/skin.tb.txt", "Demo/demo01/skin/skin.tb.txt");
+#endif
+
 	// Add fonts we can use to the font manager.
 #if defined(TB_FONT_RENDERER_STB) || defined(TB_FONT_RENDERER_FREETYPE)
-	g_font_manager->AddFontInfo("resources/vera.ttf", "Vera");
+	g_font_manager->AddFontInfo("Demo/fonts_ttf/Lato-Regular.ttf", "Lato");
 #endif
 #ifdef TB_FONT_RENDERER_TBBF
 	g_font_manager->AddFontInfo("resources/default_font/segoe_white_with_shadow.tb.txt", "Segoe");
@@ -871,13 +878,20 @@ void DemoApplication::OnBackendAttached(AppBackend *backend, int width, int heig
 #endif
 
 	// Set the default font description for widgets to one of the fonts we just added
+	// STB renders Lato smaller than FreeType since it ignores the size table in fonts.
+	// To make demo look similar with all font engines, we use slightly different sizes.
+	// This should match when running in 96dp, but will likely diverge for other DPIs (and fonts).
 	TBFontDescription fd;
-#ifdef TB_FONT_RENDERER_TBBF
-	fd.SetID(TBIDC("Segoe"));
+#if defined(TB_FONT_RENDERER_FREETYPE)
+	fd.SetID(TBIDC("Lato"));
+	fd.SetSize(g_tb_skin->GetDimensionConverter()->DpToPx(15));
+#elif defined(TB_FONT_RENDERER_STB)
+	fd.SetID(TBIDC("Lato"));
+	fd.SetSize(g_tb_skin->GetDimensionConverter()->DpToPx(18));
 #else
-	fd.SetID(TBIDC("Vera"));
-#endif
+	fd.SetID(TBIDC("Segoe"));
 	fd.SetSize(g_tb_skin->GetDimensionConverter()->DpToPx(14));
+#endif
 	g_font_manager->SetDefaultFontDescription(fd);
 
 	// Create the font now.
