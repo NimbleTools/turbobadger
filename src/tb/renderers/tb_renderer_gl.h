@@ -16,7 +16,7 @@
 #elif defined(_WIN32)
 #include <windows.h> // make gl.h compile
 #include <GL/gl.h>
-#elif defined(MACOSX) || defined(__APPLE__)
+#elif defined(__APPLE__)
 #include <OpenGL/gl.h>
 #elif defined(ANDROID) || defined(__ANDROID__)
 #include <GLES/gl.h>
