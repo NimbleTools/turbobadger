@@ -509,7 +509,6 @@ void TBSkin::PaintSkinOverlay(const TBRect &dst_rect, TBSkinElement *element, SK
 void TBSkin::PaintElement(const TBRect &dst_rect, TBSkinElement *element)
 {
 	PaintElementBGColor(dst_rect, element);
-	PaintElementBorder(dst_rect, element);
 	if (!element->bitmap)
 		return;
 	if (element->type == SKIN_ELEMENT_TYPE_IMAGE)
@@ -569,13 +568,6 @@ void TBSkin::PaintElementBGColor(const TBRect &dst_rect, TBSkinElement *element)
 	if (element->bg_color == 0)
 		return;
 	PaintRectFill(dst_rect, element->bg_color);
-}
-
-void TBSkin::PaintElementBorder(const TBRect &dst_rect, TBSkinElement *element)
-{
-	if (element->border_width == 0 || element->border_color == 0)
-		return;
-	g_tb_skin->PaintRect(dst_rect, element->border_color, element->border_width);
 }
 
 void TBSkin::PaintElementImage(const TBRect &dst_rect, TBSkinElement *element)

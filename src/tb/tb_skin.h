@@ -411,7 +411,6 @@ private:
 	bool ReloadBitmapsInternal();
 	void PaintElement(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementBGColor(const TBRect &dst_rect, TBSkinElement *element);
-	void PaintElementBorder(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementImage(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementTile(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementStretchImage(const TBRect &dst_rect, TBSkinElement *element);
