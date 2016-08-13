@@ -963,6 +963,14 @@ public:
 		which may happen f.ex if the TBWidget is removed while captured. */
 	void ReleaseCapture();
 
+	/** Return a point while converting x and y (relative to this widget) relative to the upper left corner
+		of the root widget. */
+	TBPoint PointToRoot(int x, int y) const;
+
+	/** Return a point while converting x and y (relative to the upper left corner of the root widget)
+		relative to this widget. */
+	TBPoint PointFromRoot(int x, int y) const;
+
 	/** Make x and y (relative to this widget) relative to the upper left corner of the root widget. */
 	void ConvertToRoot(int &x, int &y) const;
 

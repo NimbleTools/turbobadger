@@ -1594,6 +1594,24 @@ void TBWidget::ReleaseCapture()
 		SetCapturedWidget(nullptr);
 }
 
+TBPoint TBWidget::PointToRoot(int x, int y) const
+{
+	TBPoint ret;
+	ret.x = x;
+	ret.y = y;
+	ConvertToRoot(ret.x, ret.y);
+	return ret;
+}
+
+TBPoint TBWidget::PointFromRoot(int x, int y) const
+{
+	TBPoint ret;
+	ret.x = x;
+	ret.y = y;
+	ConvertFromRoot(ret.x, ret.y);
+	return ret;
+}
+
 void TBWidget::ConvertToRoot(int &x, int &y) const
 {
 	const TBWidget *tmp = this;
