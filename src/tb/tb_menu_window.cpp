@@ -20,6 +20,7 @@ TBMenuWindow::TBMenuWindow(TBWidget *target, TBID id)
 	m_select_list.SetSkinBg("");
 	m_select_list.SetRect(GetPaddingRect());
 	m_select_list.SetGravity(WIDGET_GRAVITY_ALL);
+	m_select_list.SetOnMouseDown(false);
 	AddChild(&m_select_list);
 }
 

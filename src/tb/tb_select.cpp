@@ -27,6 +27,7 @@ TBSelectList::TBSelectList()
 	, m_list_is_invalid(false)
 	, m_scroll_to_current(false)
 	, m_can_select_nothing(false)
+	, m_on_mouse_down(true)
 	, m_header_lng_string_id(TBIDC("TBList.header"))
 {
 	SetSource(&m_default_source);
@@ -274,7 +275,10 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 #if defined(ANDROID) || defined(__ANDROID__)
 	if (ev.type == EVENT_TYPE_CLICK && ev.target->GetParent() == m_layout.GetContentRoot())
 #else
-	if (ev.type == EVENT_TYPE_POINTER_DOWN && ev.target->GetParent() == m_layout.GetContentRoot())
+	EVENT_TYPE ev_catch = EVENT_TYPE_CLICK;
+	if (m_on_mouse_down)
+		ev_catch = EVENT_TYPE_POINTER_DOWN;
+	if (ev.type == ev_catch && ev.target->GetParent() == m_layout.GetContentRoot())
 #endif
 	{
 		// SetValue (EVENT_TYPE_CHANGED) might cause something to delete this (f.ex closing
@@ -369,6 +373,11 @@ bool TBSelectList::ChangeValue(SPECIAL_KEY key)
 void TBSelectList::SetCanSelectNothing(bool can)
 {
 	m_can_select_nothing = can;
+}
+
+void TBSelectList::SetOnMouseDown(bool b)
+{
+	m_on_mouse_down = b;
 }
 
 // == TBSelectDropdown ==========================================
