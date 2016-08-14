@@ -203,7 +203,12 @@ TBWidget *TBSelectList::CreateAndAddItemAfter(int index, TBWidget *reference)
 
 void TBSelectList::SetValue(int value)
 {
-	if (value == m_value)
+	SetValue(value, false);
+}
+
+void TBSelectList::SetValue(int value, bool force)
+{
+	if (value == m_value && !force)
 		return;
 
 	SelectItem(m_value, false);
