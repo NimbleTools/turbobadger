@@ -371,7 +371,7 @@ public:
 	void SetPosition(const TBPoint &pos) { SetRect(TBRect(pos.x, pos.y, m_rect.w, m_rect.h)); }
 
 	/** Set size of this widget. */
-	void SetSize(int width, int height) { SetRect(TBRect(m_rect.x, m_rect.y, width, height)); }
+	void SetSize(int width, int height) { SetRect(TBRect(g_tb_skin->GetDimensionConverter()->DpToPx(m_rect.x), g_tb_skin->GetDimensionConverter()->DpToPx(m_rect.y), g_tb_skin->GetDimensionConverter()->DpToPx(width), g_tb_skin->GetDimensionConverter()->DpToPx(height)) ); }
 
 	/** Invalidate should be called if the widget need to be repainted,
 		to make sure the renderer repaints it and its children next frame. */
