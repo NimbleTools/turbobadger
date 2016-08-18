@@ -203,7 +203,12 @@ TBWidget *TBSelectList::CreateAndAddItemAfter(int index, TBWidget *reference)
 
 void TBSelectList::SetValue(int value)
 {
-	if (value == m_value)
+	SetValue(value, false);
+}
+
+void TBSelectList::SetValue(int value, bool force)
+{
+	if (value == m_value && !force)
 		return;
 
 	SelectItem(m_value, false);
@@ -278,6 +283,12 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 	EVENT_TYPE ev_catch = EVENT_TYPE_CLICK;
 	if (m_on_mouse_down)
 		ev_catch = EVENT_TYPE_POINTER_DOWN;
+	else
+	{
+		// We still handle the pointer down event so it doesn't get delegated upwards
+		if (ev.type == EVENT_TYPE_POINTER_DOWN)
+			return true;
+	}
 	if (ev.type == ev_catch && ev.target->GetParent() == m_layout.GetContentRoot())
 #endif
 	{
@@ -312,7 +323,7 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 		}
 		return true;
 	}
-	else if (ev.type == EVENT_TYPE_POINTER_DOWN && m_can_select_nothing)
+	else if (ev.type == ev_catch && m_can_select_nothing)
 	{
 		SetValue(-1);
 		return true;
