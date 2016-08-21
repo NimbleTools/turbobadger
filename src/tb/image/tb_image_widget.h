@@ -14,9 +14,10 @@
 
 namespace tb {
 
+/** Specifies which fitting mode will be used for the image in the widget. */
 enum IMAGE_FIT {
-	IMAGE_FIT_NONE,
-	IMAGE_FIT_SCALE
+	IMAGE_FIT_NONE, ///< No fitting mode is applied.
+	IMAGE_FIT_SCALE, ///< The image is scaled to fit.
 };
 
 /** TBImageWidget is a widget showing a image loaded by TBImageManager,
