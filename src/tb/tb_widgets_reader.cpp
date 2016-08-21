@@ -417,8 +417,6 @@ void TBImageWidget::OnInflate(const INFLATE_INFO &info)
 		else if (stristr(fit, "scale")) SetFit(IMAGE_FIT_SCALE);
 	}
 
-	SetScale(info.node->GetValueFloat("scale", GetScale()));
-
 	TBWidget::OnInflate(info);
 }
 
