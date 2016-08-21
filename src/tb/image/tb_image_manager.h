@@ -88,6 +88,9 @@ public:
 	/** Return a image object for the given filename.
 		If it fails, the returned TBImage object will be empty. */
 	TBImage GetImage(const char *filename);
+
+	/** Return an image object for the given memory buffer.
+		If it fails, the returned TBImage object will be empty. */
 	TBImage GetImage(const char *name, uint32 *buffer, int width, int height);
 
 #ifdef TB_RUNTIME_DEBUG_INFO
