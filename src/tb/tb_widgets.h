@@ -369,8 +369,8 @@ public:
 
 	/** Set position of this widget in its parent. The position is relative to the parent widget. */
 	void SetPosition(const TBPoint &pos) {
-		SetRect(TBRect(g_tb_skin->GetDimensionConverter()->DpToPx(pos.x),
-					   g_tb_skin->GetDimensionConverter()->DpToPx(pos.y),
+		SetRect(TBRect(pos.x,
+					   pos.y,
 					   m_rect.w, m_rect.h));
 	}
 
@@ -379,6 +379,11 @@ public:
 		SetRect(TBRect(m_rect.x, m_rect.y,
 					   g_tb_skin->GetDimensionConverter()->DpToPx(width),
 					   g_tb_skin->GetDimensionConverter()->DpToPx(height)) );
+	}
+	
+	/** Set position of this widget to the center of the parent. */
+	void CenterInParent() {
+		m_rect = m_rect.CenterIn(m_parent->GetRect());
 	}
 
 	/** Invalidate should be called if the widget need to be repainted,
