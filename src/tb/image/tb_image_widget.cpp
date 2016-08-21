@@ -19,7 +19,17 @@ PreferredSize TBImageWidget::OnCalculatePreferredContentSize(const SizeConstrain
 void TBImageWidget::OnPaint(const PaintProps &paint_props)
 {
 	if (TBBitmapFragment *fragment = m_image.GetBitmap())
-		g_renderer->DrawBitmap(GetPaddingRect(), TBRect(0, 0, m_image.Width(), m_image.Height()), fragment);
+	{
+		TBRect source(0, 0, m_image.Width(), m_image.Height());
+
+		TBRect dest;
+		if (m_fit == IMAGE_FIT_NONE)
+			dest = source;
+		else if (m_fit == IMAGE_FIT_SCALE)
+			dest = GetPaddingRect();
+
+		g_renderer->DrawBitmap(dest, source, fragment);
+	}
 }
 
 } // namespace tb

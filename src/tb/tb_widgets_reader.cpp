@@ -410,6 +410,15 @@ void TBImageWidget::OnInflate(const INFLATE_INFO &info)
 {
 	if (const char *filename = info.node->GetValueString("filename", nullptr))
 		SetImage(filename);
+
+	if (const char *fit = info.node->GetValueString("fit", nullptr))
+	{
+		if (stristr(fit, "none")) SetFit(IMAGE_FIT_NONE);
+		else if (stristr(fit, "scale")) SetFit(IMAGE_FIT_SCALE);
+	}
+
+	SetScale(info.node->GetValueFloat("scale", GetScale()));
+
 	TBWidget::OnInflate(info);
 }
 
