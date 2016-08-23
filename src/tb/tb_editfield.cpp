@@ -287,7 +287,7 @@ bool TBEditField::OnEvent(const TBWidgetEvent &ev)
 		}
 		return true;
 	}
-	return false;
+	return TBWidget::OnEvent(ev);
 }
 
 void TBEditField::OnPaint(const PaintProps &paint_props)
