@@ -117,6 +117,9 @@ public:
 	void SetVirtualWidth(int virtual_width);
 	int GetVirtualWidth() const { return m_virtual_width; }
 
+	void SetShowEditCursor(bool set) { m_show_edit_cursor = set; }
+	bool GetShowEditCursor() { return m_show_edit_cursor; }
+
 	/** Get the TBStyleEdit object that contains more functions and settings. */
 	TBStyleEdit *GetStyleEdit() { return &m_style_edit; }
 
@@ -184,6 +187,7 @@ private:
 	TBStyleEdit m_style_edit;
 	bool m_adapt_to_content_size;
 	int m_virtual_width;
+	bool m_show_edit_cursor;
 	void UpdateScrollbarVisibility(bool multiline);
 
 	// == TBStyleEditListener =======================

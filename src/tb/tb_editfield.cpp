@@ -36,6 +36,7 @@ TBEditField::TBEditField()
 	: m_edit_type(EDIT_TYPE_TEXT)
 	, m_adapt_to_content_size(false)
 	, m_virtual_width(250)
+	, m_show_edit_cursor(true)
 {
 	SetIsFocusable(true);
 	SetWantLongClick(true);
