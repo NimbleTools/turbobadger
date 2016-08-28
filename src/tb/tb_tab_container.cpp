@@ -71,6 +71,8 @@ void TBTabContainer::SetAxis(AXIS axis)
 	m_tab_layout.SetAxis(axis == AXIS_X ? AXIS_Y : AXIS_X);
 	m_tab_layout.SetSkinBg(axis == AXIS_X ? TBIDC("TBTabContainer.tablayout_y") :
 											TBIDC("TBTabContainer.tablayout_x"));
+	m_tab_layout.SetLayoutDistribution(LAYOUT_DISTRIBUTION_GRAVITY);
+	m_tab_layout.SetLayoutDistributionPosition(LAYOUT_DISTRIBUTION_POSITION_LEFT_TOP);
 }
 
 void TBTabContainer::SetValue(int index)
