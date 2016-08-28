@@ -368,10 +368,23 @@ public:
 	inline TBRect GetRect() const { return m_rect; }
 
 	/** Set position of this widget in its parent. The position is relative to the parent widget. */
-	void SetPosition(const TBPoint &pos) { SetRect(TBRect(pos.x, pos.y, m_rect.w, m_rect.h)); }
+	void SetPosition(const TBPoint &pos) {
+		SetRect(TBRect(pos.x,
+					   pos.y,
+					   m_rect.w, m_rect.h));
+	}
 
 	/** Set size of this widget. */
-	void SetSize(int width, int height) { SetRect(TBRect(m_rect.x, m_rect.y, width, height)); }
+	void SetSize(int width, int height) {
+		SetRect(TBRect(m_rect.x, m_rect.y,
+					   g_tb_skin->GetDimensionConverter()->DpToPx(width),
+					   g_tb_skin->GetDimensionConverter()->DpToPx(height)) );
+	}
+	
+	/** Set position of this widget to the center of the parent. */
+	void CenterInParent() {
+		m_rect = m_rect.CenterIn(m_parent->GetRect());
+	}
 
 	/** Invalidate should be called if the widget need to be repainted,
 		to make sure the renderer repaints it and its children next frame. */

@@ -54,6 +54,7 @@ public:
 	/** The value is the selected item. In lists with multiple selectable
 		items it's the item that is the current focus. */
 	virtual void SetValue(int value);
+	virtual void SetValue(int value, bool force);
 	virtual int GetValue() { return m_value; }
 
 	/** Get the ID of the selected item, or 0 if there is no item selected. */
@@ -83,6 +84,10 @@ public:
 	/** Set whether clicking outside of any item will deselect items. */
 	void SetCanSelectNothing(bool can);
 
+	/** Set whether item click events are sent on mouse down event or mouse
+		up event. This has no effect on Android platform. */
+	void SetOnMouseDown(bool b);
+
 	virtual void OnInflate(const INFLATE_INFO &info);
 	virtual void OnSkinChanged();
 	virtual void OnProcess();
@@ -104,6 +109,7 @@ protected:
 	bool m_list_is_invalid;
 	bool m_scroll_to_current;
 	bool m_can_select_nothing;
+	bool m_on_mouse_down;
 	TBID m_header_lng_string_id;
 private:
 	TBWidget *CreateAndAddItemAfter(int index, TBWidget *reference);

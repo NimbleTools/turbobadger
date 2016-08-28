@@ -179,8 +179,9 @@ void TBEditField::OnInflate(const INFLATE_INFO &info)
 	SetReadOnly(info.node->GetValueInt("readonly", 0) ? true : false);
 	SetWrapping(info.node->GetValueInt("wrap", GetWrapping()) ? true : false);
 	SetAdaptToContentSize(info.node->GetValueInt("adapt-to-content", GetAdaptToContentSize()) ? true : false);
+	SetShowEditCursor(info.node->GetValueInt("show-edit-cursor", 1) ? true : false);
 	if (const char *virtual_width = info.node->GetValueString("virtual-width", nullptr))
-		SetVirtualWidth(g_tb_skin->GetDimensionConverter()->GetPxFromString(virtual_width, GetVirtualWidth()));
+		SetVirtualWidth(g_tb_skin->GetDimensionConverter()->GetPxFromString(virtual_width, GetVirtualWidth()));\
 	if (const char *text = info.node->GetValueString("placeholder", nullptr))
 		SetPlaceholderText(text);
 	if (const char *type = info.node->GetValueString("type", nullptr))
@@ -410,6 +411,13 @@ void TBImageWidget::OnInflate(const INFLATE_INFO &info)
 {
 	if (const char *filename = info.node->GetValueString("filename", nullptr))
 		SetImage(filename);
+
+	if (const char *fit = info.node->GetValueString("fit", nullptr))
+	{
+		if (stristr(fit, "none")) SetFit(IMAGE_FIT_NONE);
+		else if (stristr(fit, "scale")) SetFit(IMAGE_FIT_SCALE);
+	}
+
 	TBWidget::OnInflate(info);
 }
 

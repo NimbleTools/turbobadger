@@ -307,6 +307,9 @@ public:
 		Returns true on success, and all bitmaps referred to also loaded successfully. */
 	bool Load(const char *skin_file, const char *override_skin_file = nullptr);
 
+	/** Load skin file internally. Use this if you know what you're doing. */
+	bool LoadInternal(const char *skin_file);
+
 	/** Unload all bitmaps used in this skin. */
 	void UnloadBitmaps();
 
@@ -406,7 +409,6 @@ private:
 	int16 m_default_spacing;							///< Default layout spacing
 	TBFontDescription m_glyph_font_desc;
 	TBNode m_shape_nodes;								///< The "shapes" branch of nodes read from skin.
-	bool LoadInternal(const char *skin_file);
 	void RasterizeShape(TBNode *node);
 	bool ReloadBitmapsInternal();
 	void PaintElement(const TBRect &dst_rect, TBSkinElement *element);

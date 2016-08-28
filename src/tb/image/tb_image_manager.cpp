@@ -60,7 +60,7 @@ TBImage::~TBImage()
 
 bool TBImage::IsEmpty() const
 {
-	return m_image_rep && m_image_rep->fragment;
+	return !(m_image_rep && m_image_rep->fragment);
 }
 
 int TBImage::Width() const
@@ -144,6 +144,27 @@ TBImage TBImageManager::GetImage(const char *filename)
 			image_rep = nullptr;
 		}
 		TBDebugPrint(image_rep ? "TBImageManager - Loaded new image '%s'.\n" : "TBImageManager - Loading image failed '%s'.\n", filename);
+	}
+	return TBImage(image_rep);
+}
+
+TBImage TBImageManager::GetImage(const char *name, uint32 *buffer, int width, int height)
+{
+	uint32 hash_key = TBGetHash(name);
+	TBImageRep *image_rep = m_image_rep_hash.Get(hash_key);
+	if (!image_rep)
+	{
+		TBID id(name);
+		TBBitmapFragment *fragment = m_frag_manager.CreateNewFragment(id, false, width, height, width, buffer);
+
+		image_rep = new TBImageRep(this, fragment, hash_key);
+		if (!image_rep || !fragment || !m_image_rep_hash.Add(hash_key, image_rep))
+		{
+			delete image_rep;
+			m_frag_manager.FreeFragment(fragment);
+			image_rep = nullptr;
+		}
+		TBDebugOut(image_rep ? "TBImageManager - Loaded new image.\n" : "TBImageManager - Loading image failed.\n");
 	}
 	return TBImage(image_rep);
 }

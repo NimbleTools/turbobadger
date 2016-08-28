@@ -27,6 +27,7 @@ TBSelectList::TBSelectList()
 	, m_list_is_invalid(false)
 	, m_scroll_to_current(false)
 	, m_can_select_nothing(false)
+	, m_on_mouse_down(true)
 	, m_header_lng_string_id(TBIDC("TBList.header"))
 {
 	SetSource(&m_default_source);
@@ -202,7 +203,12 @@ TBWidget *TBSelectList::CreateAndAddItemAfter(int index, TBWidget *reference)
 
 void TBSelectList::SetValue(int value)
 {
-	if (value == m_value)
+	SetValue(value, false);
+}
+
+void TBSelectList::SetValue(int value, bool force)
+{
+	if (value == m_value && !force)
 		return;
 
 	SelectItem(m_value, false);
@@ -274,7 +280,16 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 #if defined(ANDROID) || defined(__ANDROID__)
 	if (ev.type == EVENT_TYPE_CLICK && ev.target->GetParent() == m_layout.GetContentRoot())
 #else
-	if (ev.type == EVENT_TYPE_POINTER_DOWN && ev.target->GetParent() == m_layout.GetContentRoot())
+	EVENT_TYPE ev_catch = EVENT_TYPE_CLICK;
+	if (m_on_mouse_down)
+		ev_catch = EVENT_TYPE_POINTER_DOWN;
+	else
+	{
+		// We still handle the pointer down event so it doesn't get delegated upwards
+		if (ev.type == EVENT_TYPE_POINTER_DOWN)
+			return true;
+	}
+	if (ev.type == ev_catch && ev.target->GetParent() == m_layout.GetContentRoot())
 #endif
 	{
 		// SetValue (EVENT_TYPE_CHANGED) might cause something to delete this (f.ex closing
@@ -308,7 +323,7 @@ bool TBSelectList::OnEvent(const TBWidgetEvent &ev)
 		}
 		return true;
 	}
-	else if (ev.type == EVENT_TYPE_POINTER_DOWN && m_can_select_nothing)
+	else if (ev.type == ev_catch && m_can_select_nothing)
 	{
 		SetValue(-1);
 		return true;
@@ -369,6 +384,11 @@ bool TBSelectList::ChangeValue(SPECIAL_KEY key)
 void TBSelectList::SetCanSelectNothing(bool can)
 {
 	m_can_select_nothing = can;
+}
+
+void TBSelectList::SetOnMouseDown(bool b)
+{
+	m_on_mouse_down = b;
 }
 
 // == TBSelectDropdown ==========================================
