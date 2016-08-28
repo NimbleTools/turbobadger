@@ -303,6 +303,9 @@ public:
 		Returns true on success, and all bitmaps referred to also loaded successfully. */
 	bool Load(const char *skin_file, const char *override_skin_file = nullptr);
 
+	/** Load skin file internally. Use this if you know what you're doing. */
+	bool LoadInternal(const char *skin_file);
+
 	/** Unload all bitmaps used in this skin. */
 	void UnloadBitmaps();
 
@@ -400,7 +403,6 @@ private:
 	float m_default_disabled_opacity;					///< Disabled opacity
 	float m_default_placeholder_opacity;				///< Placeholder opacity
 	int16 m_default_spacing;							///< Default layout spacing
-	bool LoadInternal(const char *skin_file);
 	bool ReloadBitmapsInternal();
 	void PaintElement(const TBRect &dst_rect, TBSkinElement *element);
 	void PaintElementBGColor(const TBRect &dst_rect, TBSkinElement *element);
