@@ -43,9 +43,9 @@ namespace tb {
 	
 	// Implementation currently done in port_glfw.cpp.
 	// FIX: Implement here for linux-desktop/android/macos?
-	//void TBSystem::RescheduleTimer(double fire_time)
-	//{
-	//}
+	void TBSystem::RescheduleTimer(double fire_time)
+	{
+	}
 	
 	int TBSystem::GetLongClickDelayMS()
 	{
